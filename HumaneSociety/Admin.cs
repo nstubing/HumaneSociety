@@ -9,7 +9,7 @@ namespace HumaneSociety
     class Admin : User
     {
 
-
+        public delegate void CrudDelegate();
 
 
         public override void LogIn()
@@ -36,34 +36,41 @@ namespace HumaneSociety
         }
         protected void RunInput(string input)
         {
+            CrudDelegate crudDelegate;
+
             if(input == "1" || input.ToLower() == "create")
             {
-                AddEmployee();
-                RunUserMenus();
+                crudDelegate = AddEmployee;
+              
             }
             else if(input == "2" || input.ToLower() == "delete")
             {
-                RemoveEmployee();
-                RunUserMenus();
+                crudDelegate = RemoveEmployee;
+               
             }
             else if(input == "3" || input.ToLower() == "read")
             {
-                ReadEmployee();
-                RunUserMenus();
+                crudDelegate = ReadEmployee;
+                
             }
             else if (input == "4" || input.ToLower() == "update")
             {
-                UpdateEmployee();
-                RunUserMenus();
+                crudDelegate = UpdateEmployee;
+                
             }
             else
             {
-                UserInterface.DisplayUserOptions("Input not recognized please try again or type exit");
-                RunUserMenus();
+                crudDelegate = RunUserMenus;
+              
             }
+
+            crudDelegate();
+            RunUserMenus();
         }
 
-        private void UpdateEmployee()
+     
+
+        public void UpdateEmployee()
         {
             Employee employee = new Employee();
             employee.FirstName = UserInterface.GetStringData("first name", "the employee's");
@@ -83,7 +90,7 @@ namespace HumaneSociety
             }
         }
 
-        private void ReadEmployee()
+        public void ReadEmployee()
         {
             try
             {
@@ -99,7 +106,7 @@ namespace HumaneSociety
             }
         }
 
-        private void RemoveEmployee()
+        public void RemoveEmployee()
         {
             Employee employee = new Employee();
             employee.LastName = UserInterface.GetStringData("last name", "the employee's"); ;
@@ -118,7 +125,7 @@ namespace HumaneSociety
             }
         }
 
-        private void AddEmployee()
+        public void AddEmployee()
         {
             Employee employee = new Employee();
             employee.FirstName = UserInterface.GetStringData("first name", "the employee's");
