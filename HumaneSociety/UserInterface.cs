@@ -128,6 +128,11 @@ namespace HumaneSociety
             DisplayUserOptions(info);
             Console.ReadLine();        }
 
+        internal static void DisplayAnimalInfo(object animal)
+        {
+            throw new NotImplementedException();
+        }
+
         public static void DisplayAnimalInfo(Animal animal)
         {
             Room animalRoom = Query.GetRoom(animal.AnimalId);

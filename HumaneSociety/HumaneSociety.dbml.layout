@@ -57,7 +57,7 @@
       </nestedChildShapes>
     </classShape>
     <classShape Id="4e67f668-7fa2-44f3-b5d4-4b8a214f375d" absoluteBounds="0.75, 4.25, 2, 1.1939925130208335">
-      <DataClassMoniker Name="/HumaneSocietyDataContext/Specy" />
+      <DataClassMoniker Name="/HumaneSocietyDataContext/species" />
       <nestedChildShapes>
         <elementListCompartment Id="cda4b72a-cb59-44ea-94b2-ffc1464d8d55" absoluteBounds="0.765, 4.71, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
@@ -125,7 +125,7 @@
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(2.75 : 4.84699625651042); (3.5 : 4.84699625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/HumaneSocietyDataContext/Specy/Specy_Animal" />
+      <AssociationMoniker Name="/HumaneSocietyDataContext/species/species_Animal" />
       <nodes>
         <classShapeMoniker Id="4e67f668-7fa2-44f3-b5d4-4b8a214f375d" />
         <classShapeMoniker Id="acfad949-0a93-4c5e-8954-3054ed6c40b0" />
