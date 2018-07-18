@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace HumaneSociety
 {
@@ -12,6 +13,7 @@ namespace HumaneSociety
         
         public override void LogIn()
         {
+            InputFile();
             if (CheckIfNewUser())
             {
                 CreateNewEmployee();
@@ -23,6 +25,32 @@ namespace HumaneSociety
                 LogInPreExistingUser();
             }
             RunUserMenus();
+        }
+        public void InputFile()
+        {
+            var animalRow = File.ReadAllLines(@"C:\Users\Chelsea\Desktop\C# projects\HumaneSocietyStarter\animals.csv").Select(x => x.Split(','))
+                .Select(x =>
+                     new Animal
+                    {
+                        Name = x[1],
+                        SpeciesId = Int32.Parse(x[2]),
+                        Weight = Int32.Parse(x[3]),
+                        Age = Int32.Parse(x[4]),
+                        DietPlanId = Int32.Parse(x[5]),
+                        Demeanor = x[7],
+                        KidFriendly = x[8] == "1" ? true : false,
+                        PetFriendly = x[9] == "1" ? true : false,
+                        Gender = x[10],
+                        AdoptionStatus = x[11],
+                        EmployeeId = Int32.Parse(x[12]),
+                    });
+
+            foreach(Animal animal in animalRow)
+            {
+                Query.AddAnimal(animal);
+            }
+
+
         }
         protected override void RunUserMenus()
         {
@@ -254,6 +282,10 @@ namespace HumaneSociety
             animal.DietPlan= Query.GetDietPlan();
             Query.AddAnimal(animal);
         }
+
+        
+
+
         protected override void LogInPreExistingUser()
         {
             List<string> options = new List<string>() { "Please log in", "Enter your username (CaSe SeNsItIvE)" };
