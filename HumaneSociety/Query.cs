@@ -9,14 +9,17 @@ namespace HumaneSociety
 {
     public static class Query
     {
+        public static HumaneSocietyDataContext db = new HumaneSocietyDataContext(@"C:\Users\Chelsea\Desktop\C# projects\HumaneSocietyStarter\HumaneSociety_DBCreation.sql");
         internal static void AddAnimal(Animal animal)
         {
-            
+            db.Animals.InsertOnSubmit(animal);
+            TryDBChanges();
         }
 
-        internal static DietPlan GetDietPlan()
+        internal static DietPlan GetDietPlan(string dietPlan)
         {
-            throw new NotImplementedException();
+            var myDietPlan = db.DietPlans.Where(d => d.Name == dietPlan).FirstOrDefault();
+            return myDietPlan;
         }
 
         internal static void RemoveAnimal(Animal animal)
@@ -24,9 +27,10 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static object GetSpecies()
+        internal static species GetSpecies(string species)
         {
-            throw new NotImplementedException();
+            var mySpecies = db.Species.Where(s => s.Name == species).FirstOrDefault();
+            return mySpecies;
         }
 
         internal static Employee EmployeeLogin(string userName, string password)
@@ -147,6 +151,18 @@ namespace HumaneSociety
         internal static void UpdateUsername(Client client)
         {
             throw new NotImplementedException();
+        }
+
+        public static void TryDBChanges()
+        {
+            try
+            {
+                db.SubmitChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }
