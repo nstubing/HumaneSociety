@@ -109,7 +109,8 @@ namespace HumaneSociety
 
         internal static void EnterUpdate(Animal animal, Dictionary<int, string> updates)
         {
-            throw new NotImplementedException();
+            var thisAnimal = db.Animals.Where(a => a.AnimalId == animal.AnimalId).FirstOrDefault();
+
         }
 
         internal static object GetPendingAdoptions()
