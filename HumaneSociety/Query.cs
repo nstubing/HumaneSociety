@@ -65,7 +65,8 @@ namespace HumaneSociety
         }
         internal static Client GetClient(string userName, string password)
         {
-            throw new NotImplementedException();
+            var thisClient = db.Clients.Where(c => c.UserName == userName && c.Password == password).FirstOrDefault();
+            return thisClient;
         }
 
         internal static IQueryable<Client> RetrieveClients()
@@ -76,20 +77,31 @@ namespace HumaneSociety
 
         internal static void AddUsernameAndPassword(Employee employee)
         {
-            throw new NotImplementedException();
+            var addUsername = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
+            addUsername.UserName = employee.UserName;
+            addUsername.Password = employee.Password;
+            TryDBChanges();
         }
 
         internal static bool CheckEmployeeUserNameExist(string username)
         {
-            throw new NotImplementedException();
+            var employeeName = db.Employees.Select(e => e.UserName == username).FirstOrDefault();
+            return employeeName;
         }
 
-        internal static void Adopt(object animal, Client client)
+        internal static void Adopt(Animal animal, Client client)
         {
-            throw new NotImplementedException();
+            Adoption myAdoption = new Adoption();
+            myAdoption.ClientId = client.ClientId;
+            myAdoption.AnimalId = animal.AnimalId;
+            myAdoption.ApprovalStatus = "not approved";
+            myAdoption.AdoptionFee = 75;
+            myAdoption.PaymentCollected = false;
+            db.Adoptions.InsertOnSubmit(myAdoption);
+            TryDBChanges();
         }
 
-        internal static object GetAnimalByID(int iD)
+        internal static Animal GetAnimalByID(int iD)
         {
             var myAnimal = db.Animals.Where(d => d.AnimalId == iD).FirstOrDefault();
             return myAnimal;
@@ -138,7 +150,8 @@ namespace HumaneSociety
 
         internal static Employee RetrieveEmployeeUser(string email, int employeeNumber)
         {
-            throw new NotImplementedException();
+            var thisEmployee = db.Employees.Where(e => e.Email == email && e.EmployeeNumber == employeeNumber).FirstOrDefault();
+            return thisEmployee;
         }
 
         internal static void UpdateAdoption(bool v, Adoption adoption)
