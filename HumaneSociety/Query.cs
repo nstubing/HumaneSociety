@@ -28,7 +28,7 @@ namespace HumaneSociety
             TryDBChanges();
         }
 
-        internal static species GetSpecies(string species)
+        internal static Species GetSpecies(string species)
         {
             var mySpecies = db.Species.Where(s => s.Name == species).FirstOrDefault();
             return mySpecies;
@@ -110,6 +110,16 @@ namespace HumaneSociety
         internal static void EnterUpdate(Animal animal, Dictionary<int, string> updates)
         {
             var thisAnimal = db.Animals.Where(a => a.AnimalId == animal.AnimalId).FirstOrDefault();
+            foreach(KeyValuePair<int,string> update in updates)
+            {
+                switch (update.Key)
+                {
+                    case 1:
+                        thisAnimal.Species = update.Value;
+                }
+
+            }
+
 
         }
 
