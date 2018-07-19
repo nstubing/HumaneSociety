@@ -164,9 +164,11 @@ namespace HumaneSociety
             return myRoom;
         }
 
-        internal static object GetShots(Animal animal)
+        internal static List<AnimalShot> GetShots(Animal animal)
         {
-            
+            var myAnimalShots = db.Animals.Where(a => a.AnimalId == animal.AnimalId).Select(a=>a.AnimalShots).FirstOrDefault().ToList();
+            return myAnimalShots;
+
         }
 
         internal static void RunEmployeeQueries(Employee employee, string v)
