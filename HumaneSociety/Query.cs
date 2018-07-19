@@ -115,22 +115,47 @@ namespace HumaneSociety
                 switch (update.Key)
                 {
                     case 1:
-                        thisAnimal.Species = update.Value;
+                        var thisSpecies = db.Species.Where(s=> s.Name==update.Value).FirstOrDefault();
+                        thisAnimal.Species = thisSpecies;
+                        break;
+                    case 2:
+                        thisAnimal.Name=update.Value;
+                        break;
+                    case 3:
+                        thisAnimal.Age = Int32.Parse(update.Value);
+                        break;
+                    case 4:
+                        thisAnimal.Demeanor = update.Value;
+                        break;
+                    case 5:
+                        thisAnimal.KidFriendly = UserInterface.GetBitData(update.Value);
+                        break;
+                    case 6:
+                        thisAnimal.PetFriendly = UserInterface.GetBitData(update.Value);
+                        break;
+                    case 7:
+                        thisAnimal.Weight = Int32.Parse(update.Value);
+                        break;
+
                 }
+                TryDBChanges();
 
             }
 
 
         }
 
-        internal static object GetPendingAdoptions()
+        internal static IQueryable<Adoption> GetPendingAdoptions()
         {
-            throw new NotImplementedException();
+            var pendingAdoptions = db.Adoptions.Where(a => a.ApprovalStatus == "not approved");
+            return pendingAdoptions;
         }
 
-        internal static object GetUserAdoptionStatus(Client client)
+        internal static IQueryable<Adoption> GetUserAdoptionStatus(Client client)
         {
-            throw new NotImplementedException();
+            var userAdoption = db.Adoptions.Where(a => a.ClientId == client.ClientId);
+            return userAdoption;
+
         }
 
         internal static Room GetRoom(int animalId)
