@@ -5,6 +5,7 @@ CREATE TABLE Rooms (RoomId INTEGER IDENTITY (1,1) PRIMARY KEY,  AnimalId INTEGER
 CREATE TABLE Shots (ShotId INTEGER IDENTITY (1,1) PRIMARY KEY, Name VARCHAR(50));
 
 
+
 INSERT INTO Species VALUES('Dog');
 INSERT INTO Species VALUES('Cat');
 INSERT INTO Species VALUES('Bird');
@@ -37,12 +38,11 @@ INSERT INTO Shots VALUES('Bird shot')
 INSERT INTO Shots VALUES('Alligator shot')
 INSERT INTO Shots VALUES('Rabbit shot')
 
-INSERT INTO Animals VALUES('Marley', SELECT SpeciesId FROM Species WHERE Name='Dog', 240, 27, SELECT DietPlanId FROM DietPlans WHERE Name='Puppychow');
-INSERT INTO Animals VALUES('Garfield', SELECT SpeciesId FROM Species WHERE Name='Cat', 10, 5, SELECT DietPlanId FROM DietPlans WHERE Name='Meowmix');
-INSERT INTO Animals VALUES('TheVulture', SELECT SpeciesId FROM Species WHERE Name='Bird', 1, 2, SELECT DietPlanId FROM DietPlans WHERE Name='Birdchow');
-INSERT INTO Animals VALUES('Dr.Teeth', SELECT SpeciesId FROM Species WHERE Name='Alligator', 150, 18, SELECT DietPlanId FROM DietPlans WHERE Name='Alligator food');
-INSERT INTO Animals VALUES('Jack', SELECT SpeciesId FROM Species WHERE Name='Rabbit', 3, 6, SELECT DietPlanId FROM DietPlans WHERE Name='Rabbitchow');
-
+INSERT INTO Animals VALUES('Marley', 1, 240, 27, 1, 'Cuddly', 1, 1, 'Female', 'Available', null);
+INSERT INTO Animals VALUES('Garfield', 2, 10, 5, 2, 'Mean', 0, 0, 'Male', 'Available', null);
+INSERT INTO Animals VALUES('TheVulture', 3, 1, 2, 3, 'Nice', 1,1, 'Male', 'Available', null);
+INSERT INTO Animals VALUES('Dr.Teeth', 4, 150, 18, 4, 'Cuddly', 1, 0, 'Female', 'Available',null);
+INSERT INTO Animals VALUES('Jack', 5, 3, 6, 5, 'Timid', 1,1, 'Female', 'Available',null);
 
 
 
