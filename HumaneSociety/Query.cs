@@ -24,7 +24,8 @@ namespace HumaneSociety
 
         internal static void RemoveAnimal(Animal animal)
         {
-            throw new NotImplementedException();
+            db.Animals.DeleteOnSubmit(animal);
+            TryDBChanges();
         }
 
         internal static species GetSpecies(string species)
@@ -35,22 +36,42 @@ namespace HumaneSociety
 
         internal static Employee EmployeeLogin(string userName, string password)
         {
-            throw new NotImplementedException();
+            var isEmployee = db.Employees.Where(e => e.UserName == userName && e.Password == password).FirstOrDefault();
+            return isEmployee;
         }
 
         internal static void AddNewClient(string firstName, string lastName, string username, string password, string email, string streetAddress, int zipCode, int state)
         {
-            throw new NotImplementedException();
+            Address myAddress = new Address();
+            myAddress.AddressLine1 = streetAddress;
+            myAddress.Zipcode = zipCode;
+            myAddress.USStateId = state;
+            db.Addresses.InsertOnSubmit(myAddress);
+            TryDBChanges();
+            Client myClient = new Client();
+            myClient.FirstName = firstName;
+            myClient.LastName = lastName;
+            myClient.UserName = username;
+            myClient.Password = password;
+            myClient.Email = email;
+            myClient.AddressId = GetAddressId(streetAddress);
+            db.Clients.InsertOnSubmit(myClient);
+            TryDBChanges();
         }
-
+        internal static int GetAddressId(string streetAddress)
+        {
+            var thisAddress = db.Addresses.Where(a => a.AddressLine1 == streetAddress || a.AddressLine2 == streetAddress).FirstOrDefault();
+            return thisAddress.AddressId;
+        }
         internal static Client GetClient(string userName, string password)
         {
             throw new NotImplementedException();
         }
 
-        internal static object RetrieveClients()
+        internal static IQueryable<Client> RetrieveClients()
         {
-            throw new NotImplementedException();
+            var myClients = db.Clients.Select(c => c);
+            return myClients;
         }
 
         internal static void AddUsernameAndPassword(Employee employee)
@@ -108,9 +129,10 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static object GetStates()
+        internal static IQueryable<USState> GetStates()
         {
-            throw new NotImplementedException();
+            var myState = db.USStates.Select(s => s);
+            return myState;
         }
 
         internal static Employee RetrieveEmployeeUser(string email, int employeeNumber)
