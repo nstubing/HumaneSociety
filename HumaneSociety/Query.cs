@@ -173,12 +173,58 @@ namespace HumaneSociety
 
         internal static void RunEmployeeQueries(Employee employee, string v)
         {
-            throw new NotImplementedException();
+            switch (v)
+            {
+                case "create":
+                    CreateNewEmployee(employee);
+                    break;
+                case "read":
+                    ReadEmployee(employee);
+                    break;
+                case "update":
+                    UpdateEmployee(employee);
+                    break;
+                case "delete":
+                    DeleteEmployee(employee);
+                    break;
+            }
+
+        }
+        internal static void CreateNewEmployee(Employee employee)
+        {
+            db.Employees.InsertOnSubmit(employee);
+            TryDBChanges();
+        }
+        internal static void ReadEmployee(Employee employee)
+        {
+            var thisEmployee = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
+            UserInterface.DisplayEmployeeInfo(thisEmployee);
+            TryDBChanges();
+        }
+        internal static void UpdateEmployee(Employee employee)
+        {
+            var thisEmployee = db.Employees.Where(s => s.EmployeeId == employee.EmployeeId).FirstOrDefault();
+            thisEmployee.FirstName = employee.FirstName;
+            thisEmployee.LastName = employee.LastName;
+            thisEmployee.EmployeeNumber = employee.EmployeeNumber;
+            thisEmployee.Email = employee.Email;
+            TryDBChanges();
+        }
+        internal static void DeleteEmployee(Employee employee)
+        {
+            var myDelete = db.Employees.Where(e => e.LastName == employee.LastName).FirstOrDefault();
+            db.Employees.DeleteOnSubmit(employee);
+            TryDBChanges();
+
         }
 
         internal static void UpdateShot(string v, Animal animal)
         {
-            throw new NotImplementedException();
+            AnimalShot thisShot = new AnimalShot();
+            thisShot.AnimalId = animal.AnimalId;
+            var thisShotId= db.Shots.Where(s => s.Name == v).FirstOrDefault();
+            thisShot.ShotId = thisShotId.ShotId;
+            db.AnimalShots.InsertOnSubmit(thisShot);
         }
 
         internal static IQueryable<USState> GetStates()
@@ -195,7 +241,12 @@ namespace HumaneSociety
 
         internal static void UpdateAdoption(bool v, Adoption adoption)
         {
-            throw new NotImplementedException();
+            var thisAdoption = db.Adoptions.Where(a => a.AdoptionId == adoption.AdoptionId).FirstOrDefault();
+            if(v)
+            {
+                adoption.ApprovalStatus = "approved";
+            }
+            TryDBChanges();
         }
 
         internal static void UpdateAddress(Client client)

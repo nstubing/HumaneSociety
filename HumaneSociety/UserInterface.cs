@@ -19,6 +19,14 @@ namespace HumaneSociety
         {
             Console.WriteLine(options);
         }
+        public static void DisplayEmployeeInfo(Employee thisEmployee)
+        {
+            Console.WriteLine("First Name: " + thisEmployee.FirstName);
+            Console.WriteLine("Last Name: " + thisEmployee.LastName);
+            Console.WriteLine("UserName: " + thisEmployee.UserName);
+            Console.WriteLine("Employee Number: " + thisEmployee.EmployeeNumber);
+            Console.WriteLine("Email: " + thisEmployee.Email);
+        }
         public static string GetUserInput()
         {
             string input = Console.ReadLine();
