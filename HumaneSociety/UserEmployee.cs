@@ -28,29 +28,20 @@ namespace HumaneSociety
         }
         public void InputFile()
         {
-            var animalRow = File.ReadAllLines(@"C:\Users\Chelsea\Desktop\C# projects\HumaneSocietyStarter\animals.csv").Select(x => x.Split(','))
-                .Select(x =>
-                     new Animal
-                    {
-                        Name = x[1],
-                        SpeciesId = Int32.Parse(x[2]),
-                        Weight = Int32.Parse(x[3]),
-                        Age = Int32.Parse(x[4]),
-                        DietPlanId = Int32.Parse(x[5]),
-                        Demeanor = x[7],
-                        KidFriendly = x[8] == "1" ? true : false,
-                        PetFriendly = x[9] == "1" ? true : false,
-                        Gender = x[10],
-                        AdoptionStatus = x[11],
-                        EmployeeId = Int32.Parse(x[12]),
-                    });
-
-            foreach(Animal animal in animalRow)
+            var animalRow = File.ReadAllLines(@"C: \Users\nate stubing\Desktop\DevCode\HumaneSociety\HumaneSocietyStarter\HumaneSocietyStarter\animals.csv").Select(x => x.Split(','));
+            foreach (string[] animalData in animalRow)
             {
-                Query.AddAnimal(animal);
+                Animal thisAnimal = new Animal();
+
+                thisAnimal.Name = animalData[1];
+                thisAnimal.Weight = Int32.Parse(animalData[3]);
+                thisAnimal.Age = Int32.Parse(animalData[4]);
+                thisAnimal.Demeanor = animalData[7];
+                thisAnimal.KidFriendly = animalData[8] == "1" ? true : false;
+                thisAnimal.PetFriendly = animalData[9] == "1" ? true : false;
+                thisAnimal.AdoptionStatus = animalData[11];
+                Query.AddAnimal(thisAnimal);
             }
-
-
         }
         protected override void RunUserMenus()
         {
