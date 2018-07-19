@@ -28,18 +28,18 @@ namespace HumaneSociety
         }
         public void InputFile()
         {
-            var animalRow = File.ReadAllLines(@"C: \Users\nate stubing\Desktop\DevCode\HumaneSociety\HumaneSocietyStarter\HumaneSocietyStarter\animals.csv").Select(x => x.Split(','));
+            var animalRow = File.ReadAllLines(@"C: \Users\nate stubing\Desktop\DevCode\HumaneSociety\HumaneSocietyStarter\HumaneSocietyStarter\animals.csv").Select(x => x.Split(',','"',' '));
             foreach (string[] animalData in animalRow)
             {
                 Animal thisAnimal = new Animal();
 
-                thisAnimal.Name = animalData[1];
-                thisAnimal.Weight = Int32.Parse(animalData[3]);
-                thisAnimal.Age = Int32.Parse(animalData[4]);
-                thisAnimal.Demeanor = animalData[7];
-                thisAnimal.KidFriendly = animalData[8] == "1" ? true : false;
-                thisAnimal.PetFriendly = animalData[9] == "1" ? true : false;
-                thisAnimal.AdoptionStatus = animalData[11];
+                thisAnimal.Name = animalData[3];
+                thisAnimal.Weight = Int32.Parse(animalData[8]);
+                thisAnimal.Age = Int32.Parse(animalData[10]);
+                thisAnimal.Demeanor = animalData[17];
+                thisAnimal.KidFriendly = animalData[20] == "1" ? true : false;
+                thisAnimal.PetFriendly = animalData[22] == "1" ? true : false;
+                thisAnimal.AdoptionStatus = animalData[27];
                 Query.AddAnimal(thisAnimal);
             }
         }
