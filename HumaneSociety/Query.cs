@@ -135,12 +135,13 @@ namespace HumaneSociety
 
         internal static Room GetRoom(int animalId)
         {
-            throw new NotImplementedException();
+            var myRoom = db.Rooms.Where(r => r.AnimalId == animalId).FirstOrDefault();
+            return myRoom;
         }
 
         internal static object GetShots(Animal animal)
         {
-            throw new NotImplementedException();
+            
         }
 
         internal static void RunEmployeeQueries(Employee employee, string v)
