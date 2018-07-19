@@ -195,37 +195,51 @@ namespace HumaneSociety
 
         internal static void UpdateAdoption(bool v, Adoption adoption)
         {
+
             throw new NotImplementedException();
         }
 
         internal static void UpdateAddress(Client client)
         {
-            throw new NotImplementedException();
+
+            var newAddress = db.Clients.Where(c => c.ClientId == client.ClientId).Where(a => a.Address == client.Address).FirstOrDefault();
+            db.Clients.InsertOnSubmit(newAddress);
+            TryDBChanges();
         }
 
         internal static void updateClient(Client client)
         {
-            throw new NotImplementedException();
+            var newClient = db.Clients.Where(c => c.ClientId == client.ClientId).FirstOrDefault();
+            db.Clients.InsertOnSubmit(newClient);
+            TryDBChanges();
         }
 
         internal static void UpdateEmail(Client client)
         {
-            throw new NotImplementedException();
+            var newEmail = db.Clients.Where(e=>e.ClientId == client.ClientId).Where(e => e.Email == client.Email).FirstOrDefault();
+            db.Clients.InsertOnSubmit(newEmail);
+            TryDBChanges();
         }
 
         internal static void UpdateFirstName(Client client)
         {
-            throw new NotImplementedException();
+            var newFirstName = db.Clients.Where(c=>c.ClientId == client.ClientId).Where(c => c.FirstName == client.FirstName).FirstOrDefault();
+            db.Clients.InsertOnSubmit(newFirstName);
+            TryDBChanges();
         }
 
         internal static void UpdateLastName(Client client)
         {
-            throw new NotImplementedException();
+            var newLastName = db.Clients.Where(c=>c.ClientId == client.ClientId).Where(c => c.LastName == client.LastName).FirstOrDefault();
+            db.Clients.InsertOnSubmit(newLastName);
+            TryDBChanges();
         }
 
         internal static void UpdateUsername(Client client)
         {
-            throw new NotImplementedException();
+            var newUsername =db.Clients.Where(c =>c.ClientId == client.ClientId).Where(c => c.UserName == client.UserName).FirstOrDefault();
+            db.Clients.InsertOnSubmit(newUsername);
+            TryDBChanges();
         }
 
         public static void TryDBChanges()
