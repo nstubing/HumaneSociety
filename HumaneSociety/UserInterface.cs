@@ -144,12 +144,22 @@ namespace HumaneSociety
 
         public static void DisplayAnimalInfo(Animal animal)
         {
-            Room animalRoom = Query.GetRoom(animal.AnimalId);
-            List<string> info = new List<string>() {"ID: " + animal.AnimalId, animal.Name, animal.Age + "years old", "Demeanour: " + animal.Demeanor, "Kid friendly: " + BoolToYesNo(animal.KidFriendly), "pet friendly: " + BoolToYesNo(animal.PetFriendly), $"Location: " + Query.GetRoom(animal.AnimalId)._RoomNumber, "Weight: " + animal.Weight.ToString(),  "Food amoumnt in cups:" + animal.DietPlan.FoodAmountInCups};
+            string animalRoomNumber = "";
+            var animalRoom = Query.GetRoom(animal.AnimalId);
+            if(animalRoom == null)
+            {
+                animalRoomNumber = "Room unassigned";
+            }
+            else
+            {
+                animalRoomNumber = animalRoom.AnimalId.ToString();
+            }
+            List<string> info = new List<string>() {"ID: " + animal.AnimalId, animal.Name, animal.Age + "years old", "Demeanour: " + animal.Demeanor, "Kid friendly: " + BoolToYesNo(animal.KidFriendly), "pet friendly: " + BoolToYesNo(animal.PetFriendly), $"Location: " + animalRoomNumber, "Weight: " + animal.Weight.ToString(),  "Food amoumnt in cups:" + animal.DietPlan.FoodAmountInCups};
             DisplayUserOptions(info);
             Console.ReadLine();
 
         }
+
 
         private static string BoolToYesNo(bool? input)
         {

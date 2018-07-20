@@ -151,6 +151,9 @@ namespace HumaneSociety
                     case 7:
                         thisAnimal.Weight = Int32.Parse(update.Value);
                         break;
+                    case 8:
+                        Query.UpdateRoom(thisAnimal.AnimalId, Int32.Parse(update.Value));
+                        break;
 
                 }
                 TryDBChanges();
@@ -291,14 +294,19 @@ namespace HumaneSociety
             Room newRoom = new Room();
             newRoom.AnimalId = animalId;
             var thisRoom = db.Rooms.Where(r => r._RoomNumber == v).FirstOrDefault();
-            if (thisRoom.AnimalId !=null)
+            if (thisRoom ==null)
             {
-                Console.WriteLine("This room is full.");
-                UpdateRoom(animalId, UserInterface.GetIntegerData("room number", "the animal's"));
+                newRoom._RoomNumber = v;
+
+            }
+            else if (thisRoom!=null && thisRoom.AnimalId==null)
+            {
+                newRoom._RoomNumber = v;
             }
             else
             {
-                newRoom._RoomNumber = v;
+                Console.WriteLine("This room is full.");
+                UpdateRoom(animalId, UserInterface.GetIntegerData("room number", "the animal's"));
             }
             db.Rooms.InsertOnSubmit(newRoom);
             TryDBChanges();
