@@ -246,7 +246,10 @@ namespace HumaneSociety
             thisShot.AnimalId = animal.AnimalId;
             var thisShotId= db.Shots.Where(s => s.Name == v).FirstOrDefault();
             thisShot.ShotId = thisShotId.ShotId;
+            DateTime thisTime = new DateTime();
+            thisShot.DateReceived = thisTime;
             db.AnimalShots.InsertOnSubmit(thisShot);
+            TryDBChanges();
         }
 
         internal static IQueryable<USState> GetStates()
@@ -291,24 +294,30 @@ namespace HumaneSociety
 
         internal static void UpdateRoom(int animalId, int v)
         {
+            var clearRooms = db.Rooms.Where(r => r.AnimalId == animalId);
+            foreach(Room room in clearRooms)
+            {
+                room.AnimalId = null;
+            }
+            TryDBChanges();
             Room newRoom = new Room();
             newRoom.AnimalId = animalId;
             var thisRoom = db.Rooms.Where(r => r._RoomNumber == v).FirstOrDefault();
             if (thisRoom ==null)
             {
                 newRoom._RoomNumber = v;
-
+                db.Rooms.InsertOnSubmit(newRoom);
             }
             else if (thisRoom!=null && thisRoom.AnimalId==null)
             {
-                newRoom._RoomNumber = v;
+                thisRoom._RoomNumber = v;
             }
             else
             {
                 Console.WriteLine("This room is full.");
                 UpdateRoom(animalId, UserInterface.GetIntegerData("room number", "the animal's"));
             }
-            db.Rooms.InsertOnSubmit(newRoom);
+            ;
             TryDBChanges();
         }
 

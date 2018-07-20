@@ -152,7 +152,7 @@ namespace HumaneSociety
             }
             else
             {
-                animalRoomNumber = animalRoom.AnimalId.ToString();
+                animalRoomNumber = animalRoom._RoomNumber.ToString();
             }
             List<string> info = new List<string>() {"ID: " + animal.AnimalId, animal.Name, animal.Age + "years old", "Demeanour: " + animal.Demeanor, "Kid friendly: " + BoolToYesNo(animal.KidFriendly), "pet friendly: " + BoolToYesNo(animal.PetFriendly), $"Location: " + animalRoomNumber, "Weight: " + animal.Weight.ToString(),  "Food amoumnt in cups:" + animal.DietPlan.FoodAmountInCups};
             DisplayUserOptions(info);

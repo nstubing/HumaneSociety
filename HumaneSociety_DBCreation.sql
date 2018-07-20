@@ -79,3 +79,4 @@ Where RoomId=10
 
 
 
+INSERT INTO Shots VALUES('booster');
