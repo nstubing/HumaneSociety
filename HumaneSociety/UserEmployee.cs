@@ -32,7 +32,6 @@ namespace HumaneSociety
             foreach (string[] animalData in animalRow)
             {
                 Animal thisAnimal = new Animal();
-
                 thisAnimal.Name = animalData[3];
                 thisAnimal.Weight = Int32.Parse(animalData[8]);
                 thisAnimal.Age = Int32.Parse(animalData[10]);
@@ -45,7 +44,7 @@ namespace HumaneSociety
         }
         protected override void RunUserMenus()
         {
-            List<string> options = new List<string>() { "What would you like to do? (select number of choice)", "1. Add animal", "2. Remove Anmial", "3. Check Animal Status",  "4. Approve Adoption" };
+            List<string> options = new List<string>() { "What would you like to do? (select number of choice)", "1. Add animal", "2. Remove Animal", "3. Check Animal Status",  "4. Approve Adoption" };
             UserInterface.DisplayUserOptions(options);
             string input = UserInterface.GetUserInput();
             RunUserInput(input);
@@ -203,10 +202,10 @@ namespace HumaneSociety
         private void UpdateAnimal(Animal animal)
         {
             Dictionary<int, string> updates = new Dictionary<int, string>();
-            List<string> options = new List<string>() { "Select Updates: (Enter number and choose finished when finished)", "1. Species","2. Name", "3. Age", "4. Demeanor", "5. Kid friendly", "6. Pet friendly", "7. Weight", "8. Finished" };
+            List<string> options = new List<string>() { "Select Updates: (Enter number and choose finished when finished)", "1. Species","2. Name", "3. Age", "4. Demeanor", "5. Kid friendly", "6. Pet friendly", "7. Weight", "8. Room Number","9. Finished" };
             UserInterface.DisplayUserOptions(options);
             string input = UserInterface.GetUserInput();
-            if(input.ToLower() == "8" ||input.ToLower() == "finished")
+            if(input.ToLower() == "9" ||input.ToLower() == "finished")
             {
                 Query.EnterUpdate(animal, updates);
             }
@@ -270,6 +269,7 @@ namespace HumaneSociety
             animal.KidFriendly = UserInterface.GetBitData("the animal", "child friendly");
             animal.PetFriendly = UserInterface.GetBitData("the animal", "pet friendly");
             animal.Weight = UserInterface.GetIntegerData("the animal", "the weight of the");
+            Query.UpdateRoom(animal.AnimalId,UserInterface.GetIntegerData("room number", "the animal's"));
             animal.DietPlan= Query.GetDietPlan(UserInterface.GetStringData("diet plan", "the animal's"));
             Query.AddAnimal(animal);
         }
@@ -288,6 +288,10 @@ namespace HumaneSociety
             {
                 Console.Clear();
                 employee = Query.EmployeeLogin(userName, password);
+                if (employee == null)
+                {
+                    throw new NullReferenceException();
+                }
                 UserInterface.DisplayUserOptions("Login successfull. Welcome.");
             }
             catch
@@ -306,6 +310,10 @@ namespace HumaneSociety
             try
             {
                 employee = Query.RetrieveEmployeeUser(email, employeeNumber);
+                if (employee == null)
+                {
+                    throw new NullReferenceException();
+                }
             }
             catch
             {

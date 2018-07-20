@@ -44,6 +44,37 @@ INSERT INTO Animals VALUES('TheVulture', 3, 1, 2, 3, 'Nice', 1,1, 'Male', 'Avail
 INSERT INTO Animals VALUES('Dr.Teeth', 4, 150, 18, 4, 'Cuddly', 1, 0, 'Female', 'Available',null);
 INSERT INTO Animals VALUES('Jack', 5, 3, 6, 5, 'Timid', 1,1, 'Female', 'Available',null);
 
+ALTER TABLE Rooms ADD _RoomNumber INTEGER;
+UPDATE Rooms
+SET _RoomNumber = RoomId
+Where RoomId=1
+UPDATE Rooms
+SET _RoomNumber = RoomId
+Where RoomId=2
+UPDATE Rooms
+SET _RoomNumber = RoomId
+Where RoomId=3
+UPDATE Rooms
+SET _RoomNumber = RoomId
+Where RoomId=4
+UPDATE Rooms
+SET _RoomNumber = RoomId
+Where RoomId=5
+UPDATE Rooms
+SET _RoomNumber = RoomId
+Where RoomId=6
+UPDATE Rooms
+SET _RoomNumber = RoomId
+Where RoomId=7
+UPDATE Rooms
+SET _RoomNumber = RoomId
+Where RoomId=8
+UPDATE Rooms
+SET _RoomNumber = RoomId
+Where RoomId=9
+UPDATE Rooms
+SET _RoomNumber = RoomId
+Where RoomId=10
 
 
 

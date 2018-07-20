@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Sql;
+using System.Data.Linq;
 
 namespace HumaneSociety
 {
     public static class Query
     {
-        public static HumaneSocietyDataContext db = new HumaneSocietyDataContext(@"C:\Users\Chelsea\Desktop\C# projects\HumaneSocietyStarter\HumaneSociety_DBCreation.sql");
+        public delegate void EmployeeDelegate(Employee employee);
+        public static HumaneSocietyDataContext db = new HumaneSocietyDataContext();
         internal static void AddAnimal(Animal animal)
         {
             db.Animals.InsertOnSubmit(animal);
@@ -31,6 +33,14 @@ namespace HumaneSociety
         internal static Species GetSpecies(string species)
         {
             var mySpecies = db.Species.Where(s => s.Name == species).FirstOrDefault();
+            if (mySpecies==null)
+            {
+                Species newSpecies = new Species();
+                newSpecies.Name = species;
+                db.Species.InsertOnSubmit(newSpecies);
+                TryDBChanges();
+                GetSpecies(species);
+            }
             return mySpecies;
         }
 
@@ -85,8 +95,13 @@ namespace HumaneSociety
 
         internal static bool CheckEmployeeUserNameExist(string username)
         {
-            var employeeName = db.Employees.Select(e => e.UserName == username).FirstOrDefault();
-            return employeeName;
+            bool userExists = false;
+            var employeeName = db.Employees.Where(e => e.UserName == username).FirstOrDefault();
+            if(employeeName!=null)
+            {
+                userExists = true;
+            }
+            return userExists;
         }
 
         internal static void Adopt(Animal animal, Client client)
@@ -173,21 +188,26 @@ namespace HumaneSociety
 
         internal static void RunEmployeeQueries(Employee employee, string v)
         {
+            EmployeeDelegate employeeDelegate;
             switch (v)
             {
                 case "create":
-                    CreateNewEmployee(employee);
+                    employeeDelegate =CreateNewEmployee;
                     break;
                 case "read":
-                    ReadEmployee(employee);
+                    employeeDelegate = ReadEmployee;
                     break;
                 case "update":
-                    UpdateEmployee(employee);
+                    employeeDelegate = UpdateEmployee;
                     break;
                 case "delete":
-                    DeleteEmployee(employee);
+                    employeeDelegate = DeleteEmployee;
+                    break;
+                default:
+                    employeeDelegate = CreateNewEmployee;
                     break;
             }
+            employeeDelegate(employee);
 
         }
         internal static void CreateNewEmployee(Employee employee)
@@ -197,23 +217,22 @@ namespace HumaneSociety
         }
         internal static void ReadEmployee(Employee employee)
         {
-            var thisEmployee = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
+            var thisEmployee = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
             UserInterface.DisplayEmployeeInfo(thisEmployee);
             TryDBChanges();
         }
         internal static void UpdateEmployee(Employee employee)
         {
-            var thisEmployee = db.Employees.Where(s => s.EmployeeId == employee.EmployeeId).FirstOrDefault();
+            var thisEmployee = db.Employees.Where(s => s.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
             thisEmployee.FirstName = employee.FirstName;
             thisEmployee.LastName = employee.LastName;
-            thisEmployee.EmployeeNumber = employee.EmployeeNumber;
             thisEmployee.Email = employee.Email;
             TryDBChanges();
         }
         internal static void DeleteEmployee(Employee employee)
         {
-            var myDelete = db.Employees.Where(e => e.LastName == employee.LastName).FirstOrDefault();
-            db.Employees.DeleteOnSubmit(employee);
+            var myDelete = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
+            db.Employees.DeleteOnSubmit(myDelete);
             TryDBChanges();
 
         }
@@ -236,6 +255,7 @@ namespace HumaneSociety
         internal static Employee RetrieveEmployeeUser(string email, int employeeNumber)
         {
             var thisEmployee = db.Employees.Where(e => e.Email == email && e.EmployeeNumber == employeeNumber).FirstOrDefault();
+            
             return thisEmployee;
         }
 
@@ -263,6 +283,24 @@ namespace HumaneSociety
         {
             var newClient = db.Clients.Where(c => c.ClientId == client.ClientId).FirstOrDefault();
             db.Clients.InsertOnSubmit(newClient);
+            TryDBChanges();
+        }
+
+        internal static void UpdateRoom(int animalId, int v)
+        {
+            Room newRoom = new Room();
+            newRoom.AnimalId = animalId;
+            var thisRoom = db.Rooms.Where(r => r._RoomNumber == v).FirstOrDefault();
+            if (thisRoom.AnimalId !=null)
+            {
+                Console.WriteLine("This room is full.");
+                UpdateRoom(animalId, UserInterface.GetIntegerData("room number", "the animal's"));
+            }
+            else
+            {
+                newRoom._RoomNumber = v;
+            }
+            db.Rooms.InsertOnSubmit(newRoom);
             TryDBChanges();
         }
 
